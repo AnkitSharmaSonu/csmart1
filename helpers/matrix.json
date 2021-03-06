@@ -1,0 +1,4 @@
+{
+    "Azure Kubernetes Service" : "/api/devops-automation",
+    "Resource Group" : "/api/resource-group/create"
+}

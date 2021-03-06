@@ -1,0 +1,827 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.1",
+    "title": "C-Smart APIs",
+    "description": "",
+    "license": {
+      "name": "Csmart License",
+      "url": "https://opensource.org/licenses/MIT"
+    },
+    "contact": {
+      "name": "Mahima Sukhlecha",
+      "url": "celebaltech.com",
+      "email": "mahima.sukhlecha@celebaltech.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://c-smart-backend-app.azurewebsites.net/api/",
+      "description": "backend API specification"
+    },
+    {
+      "url": "http://localhost:3000/api",
+      "description": "localhost URL"
+    }
+  ],
+  "tags": [
+    {
+      "name": "MakerChecker",
+      "description": "APIs for implementing MakerChecker Functionality"
+    },
+    {
+      "name": "Security",
+      "description": "APIs for implementing Security Feature"
+    }
+  ],
+  "paths": {
+    "/makerChecker/raiseTicket": {
+      "post": {
+        "tags": [
+          "MakerChecker"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer <token>",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "csmartId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Ticket"
+              }
+            }
+          }
+        },
+        "summary": "Request for resource deployment",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Success"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/makerChecker/admin-response": {
+      "post": {
+        "tags": [
+          "MakerChecker"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer <token>",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "csmartId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Response send by Admin",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdminResponse"
+              }
+            }
+          }
+        },
+        "summary": "Response Send by Admin",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Success"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/makerChecker/admin/requests/{requestId}": {
+      "get": {
+        "tags": [
+          "MakerChecker"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer <token>",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "csmartId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "mail",
+            "description": "Admin Mail",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "requestId",
+            "in": "path",
+            "required": true,
+            "description": "Request Id",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "summary": "Request Summary to Admin",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestSummary"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No content"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "Bearer"
+            ]
+          }
+        ]
+      }
+    },
+    "/makerChecker/admin/requests": {
+      "get": {
+        "description": "Get all the requests for Admin",
+        "tags": [
+          "MakerChecker"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer <token>",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "csmartId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "filter_status",
+            "description": "Approved/Disapproved/Pending",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "mail",
+            "description": "Admin Mail",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "summary": "Response send by Admin",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RequestSummary"
+                  }
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No content"
+          }
+        }
+      }
+    },
+    "/makerChecker/user/requests/{requestId}": {
+      "get": {
+        "tags": [
+          "MakerChecker"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer <token>",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "csmartId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "mail",
+            "description": "User Mail",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "requestId",
+            "required": true,
+            "description": "Request Id'",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "summary": "Request Payload created by User",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CheckerResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No content"
+          }
+        }
+      }
+    },
+    "/makerChecker/user/requests": {
+      "get": {
+        "tags": [
+          "MakerChecker"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer <token>",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "csmartId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "filter_status",
+            "description": "Approved/Disapproved/Pending",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "mail",
+            "description": "User Mail",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "summary": "Request Payload created by User",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CheckerResponse"
+                  }
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No content"
+          }
+        }
+      }
+    },
+    "/security/subscription/{subscriptionId}/recommendations": {
+      "get": {
+        "tags": [
+          "Security"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer <token>",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "csmartId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "subscriptionId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "top",
+            "description": "Number of top recommendations support pagination",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "skip_token",
+            "description": "token for next page",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "summary": "Recommendation List",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Recommendation"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No content"
+          }
+        }
+      }
+    },
+    "/security/subscription/{subscriptionId}/alerts": {
+      "get": {
+        "tags": [
+          "Security"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer <token>",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "csmartId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "subscriptionId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "summary": "Alert List",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Alert"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No content"
+          }
+        }
+      }
+    },
+    "/security/subscription/{subscriptionId}/secureScores": {
+      "get": {
+        "tags": [
+          "Security"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer <token>",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "csmartId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "subscriptionId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "summary": "Secure Score List",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SecureScore"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No content"
+          }
+        }
+      }
+    },
+    "/security/subscription/{subscriptionId}/assessments": {
+      "get": {
+        "tags": [
+          "Security"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer <token>",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "csmartId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "subscriptionId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "summary": "Assessment List",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SecurityAssessment"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No content"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Ticket": {
+        "required": [
+          "requestor",
+          "requestPayload",
+          "routePrefix",
+          "timestamp"
+        ],
+        "type": "object",
+        "properties": {
+          "requestor": {
+            "type": "string"
+          },
+          "requestPayload": {
+            "type": "object"
+          },
+          "routePrefix": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "AdminResponse": {
+        "required": [
+          "userMail",
+          "adminMail",
+          "requestId",
+          "message",
+          "status",
+          "timestamp",
+          "priorityOrder"
+        ],
+        "type": "object",
+        "properties": {
+          "userMail": {
+            "type": "string"
+          },
+          "adminMail": {
+            "type": "string"
+          },
+          "requestId": {
+            "type": "integer"
+          },
+          "message": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "priorityOrder": {
+            "type": "integer"
+          }
+        }
+      },
+      "Success": {
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "messsage": {
+            "type": "string"
+          }
+        }
+      },
+      "RequestSummary": {
+        "required": [
+          "adminMail",
+          "requestId",
+          "userMail",
+          "requestDate",
+          "requestPayload",
+          "status",
+          "priorityOrder"
+        ],
+        "type": "object",
+        "properties": {
+          "adminMail": {
+            "type": "string"
+          },
+          "requestId": {
+            "type": "integer"
+          },
+          "userMail": {
+            "type": "string"
+          },
+          "requestPayload": {
+            "type": "object"
+          },
+          "requestDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "type": "string"
+          },
+          "priorityOrder": {
+            "type": "integer"
+          }
+        }
+      },
+      "CheckerResponse": {
+        "required": [
+          "adminMail",
+          "requestId",
+          "UserMail",
+          "requestDate",
+          "requestPayload",
+          "routePrefix",
+          "responseMessage",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "adminMail": {
+            "type": "string"
+          },
+          "requestId": {
+            "type": "integer"
+          },
+          "UserMail": {
+            "type": "string"
+          },
+          "routePrefix": {
+            "type": "string"
+          },
+          "responseMessage": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "requestPayload": {
+            "type": "object"
+          },
+          "requestDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "Recommendation": {
+        "required": [
+          "value"
+        ],
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "skipToken": {
+            "type": "string"
+          }
+        }
+      },
+      "Alert": {
+        "required": [
+          "value"
+        ],
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "SecureScore": {
+        "required": [
+          "value"
+        ],
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "SecurityAssessment": {
+        "required": [
+          "value"
+        ],
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "For accessing the API a valid JWT token must be passed in all the queries in   the 'Authorization' header."
+      }
+    }
+  }
+}

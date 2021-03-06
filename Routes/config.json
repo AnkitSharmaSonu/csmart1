@@ -1,0 +1,17 @@
+{
+    "authenticationType" : "ServicePrincipal",
+    "authorityUrl" : "https://login.microsoftonline.com/common/",
+    "resourceUrl" : "https://analysis.windows.net/powerbi/api",
+    "resourceUri" : "https://celebaltech.com/522daa48-8f62-409d-b2b1-2041692b5baf",
+    "apiUrl" : "https://api.powerbi.com/",
+    "appId" : "485150c9-f725-4092-a664-327570ce29a3",
+    "workspaceId" : "ed7a3828-79de-4f8c-aa58-0834a6a721cf",
+    "reportId" : "9adbb041-1a60-4410-9f1e-fd48837be755",
+    "username" : "",
+    "password" : "",
+    
+    "clientSecret":"zz6Or9T-_5~ZVmBfGdzDo4_wSn99wsD9HI",
+    "applicationSecret" : "zz6Or9T-_5~ZVmBfGdzDo4_wSn99wsD9HI",
+    "tenantId" : "e4e34038-ea1f-4882-b6e8-ccd776459ca0"
+}
+
